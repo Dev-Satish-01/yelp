@@ -6,18 +6,14 @@ const morgan = require("morgan");
 
 const app = express();
 
+/* Middleware */
 app.use(cors());
 app.use(express.json());
-app.use((req, res, next) => {
-    console.log("middleware");
-    next();
-})
 
 /* GET all restaurants */
 app.get("/api/v1/restaurants", async (req, res) => {
     try {
         const results = await db.query('select * from restaurants');
-        console.log(results);
         res.status(200).json({
             status: "success",
             results: results.rows.length,
@@ -49,7 +45,6 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
 app.post("/api/v1/restaurants/", async (req, res) => {
     try {
         const results = await db.query("insert into restaurants (name, location, price_range) values ($1, $2, $3) returning *", [req.body.name, req.body.location, req.body.price_range]);
-        console.log(results);
         res.status(201).json({
             status: "success",
             data: {

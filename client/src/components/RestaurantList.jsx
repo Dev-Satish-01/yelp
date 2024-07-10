@@ -5,14 +5,13 @@ import { RestaurantsContext } from "../context/RestaurantsContext";
 const RestaurantList = (props) => {
   const { restaurants, setRestaurants } = useContext(RestaurantsContext);
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       try {
         const response = await RestaurantFinder.get("/");
-        setRestaurants(response.data.data.restaurants);
+        setRestaurants(response.data.data.restaurant);
       } catch (err) {}
-    };
+    })();
 
-    fetchData();
   }, []);
 
   return (
